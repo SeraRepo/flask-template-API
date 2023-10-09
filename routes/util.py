@@ -30,20 +30,20 @@ def token_required(f):
         if 'x-access-token' in request.headers:
             token = request.headers['x-access-token']
         if not token:
-            return jsonify({'message' : 'Token is missing !!'}), 401
+            return jsonify({"ReqStatus": "KO", 'message' : 'Token is missing !!'}), 401
 
         try:
             data = jwt.decode(token, SECRET_KEY)
         except Exception as e:
-            return jsonify({"ReqStatus": "Error", "Response": "Error token"}), 401
+            return jsonify({"ReqStatus": "KO", "Response": "Error token"}), 401
 
         current_user = UserModel.query.filter_by(id = data['id']).first()
         ctoken = current_user.jwt
 
         if token != ctoken:
-            return jsonify({"ReqStatus": "Error", "Response": "Error token"}), 401
+            return jsonify({"ReqStatus": "KO", "Response": "Error token"}), 401
         if token == "":
-            return jsonify({"ReqStatus": "Error", "Response": "Error token"}), 401
+            return jsonify({"ReqStatus": "KO", "Response": "Error token"}), 401
 
         return  f(*args, **kwargs)
     return decorated
