@@ -1,2 +1,4 @@
 tuto_python/
 __pycache__/
+Flask-Template-API/
+*.db
